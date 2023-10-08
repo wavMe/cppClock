@@ -1,5 +1,5 @@
 .vs
-cppClock.sln
+Debug
 *.vcxproj
 *.filters
 *.user
