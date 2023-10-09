@@ -1,12 +1,17 @@
 #include "CustomString.h"
 
+#include <stdexcept>
+#include <cstring>
+#include <algorithm>
 
 CustomString::CustomString()
 {
+	DefualtInit();
 	_data[_size] = '\0';
 }
 CustomString::CustomString(const char* data)
 {
+	DefualtInit();
 	_size = static_cast<int>(strlen(data));
 	if (_size >= _capacity)
 	{
@@ -20,6 +25,7 @@ CustomString::CustomString(const char* data)
 }
 CustomString::CustomString(const CustomString& other)
 {
+	DefualtInit();
 	_size = other._size;
 	_capacity = other._capacity;
 
@@ -30,9 +36,9 @@ CustomString::CustomString(const CustomString& other)
 }
 CustomString::~CustomString() { delete[] _data; }
 
-int CustomString::size() const { return _size; }
-int CustomString::length() const { return _size; }
-int CustomString::capacity() const { return _capacity; }
+int CustomString::Size() const { return _size; }
+int CustomString::Length() const { return _size; }
+int CustomString::Capacity() const { return _capacity; }
 
 //CustomString& CustomString::operator=(const CustomString& other)
 //{
@@ -67,7 +73,7 @@ bool CustomString::operator==(const CustomString& other) const
 	return (memcmp(_data, other._data, _size) == 0);
 }
 
-CustomString CustomString::substr(int start, int count) const
+CustomString CustomString::Substr(int start, int count) const
 {
 	if (start < 0 || start > _size || count < 0 || start + count > _size)
 	{
@@ -84,7 +90,7 @@ CustomString CustomString::substr(int start, int count) const
 	return subStr;
 }
 
-CustomString CustomString::append(const char* appData)
+CustomString CustomString::Append(const char* appData)
 {
 	int oriSize = _size;
 	char* oriData = new char[_size + 1];
@@ -110,14 +116,14 @@ CustomString CustomString::append(const char* appData)
 	return _data;
 }
 
-int CustomString::find(const char* findData)
+int CustomString::Find(const char* findData)
 {
 	CustomString findStr = CustomString(findData);
-	int findSize = findStr.size();
+	int findSize = findStr.Size();
 
 	for (int start = 0; start < _size - findSize + 1; start++)
 	{
-		if (substr(start, findSize) == findStr)
+		if (Substr(start, findSize) == findStr)
 		{
 			return start;
 		}
@@ -126,7 +132,7 @@ int CustomString::find(const char* findData)
 	return -1;
 }
 
-vector<CustomString> CustomString::split(const char* splitData)
+vector<CustomString> CustomString::Split(const char* splitData)
 {
 	char* oriData = new char[_size + 1];
 	memcpy(oriData, _data, sizeof(char) * (_size + 1));
@@ -140,4 +146,14 @@ vector<CustomString> CustomString::split(const char* splitData)
 	}
 
 	return strs;
+}
+
+void CustomString::DefualtInit()
+{
+	// 默认大小为0
+	 _size = 0;
+	// 默认容量为16
+	 _capacity = 16;
+	// 默认分配大小为16的内存空间
+	_data = new char[_capacity];
 }

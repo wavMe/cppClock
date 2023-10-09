@@ -1,7 +1,6 @@
 #pragma once
 #pragma warning(disable : 4996)
-#include <iostream>
-#include <algorithm>
+
 #include <vector>
 
 using namespace std;
@@ -14,24 +13,25 @@ public:
 	CustomString(const CustomString& other);
 	~CustomString();
 
-	int size() const;
-	int length() const;
-	int capacity() const;
+	int Size() const;
+	int Length() const;
+	int Capacity() const;
 
 	//CustomString& operator=(const CustomString& other);
 	CustomString& operator=(CustomString other);
 	bool operator==(const CustomString& other) const;
 
-	CustomString substr(int start, int count) const;
-	CustomString append(const char* appData);
-	int find(const char* findData);
-	vector<CustomString> split(const char* splitData);
-
+	CustomString Substr(int start, int count) const;
+	CustomString Append(const char* appData);
+	int Find(const char* findData);
+	vector<CustomString> Split(const char* splitData);
+private:
+	void DefualtInit();
 	// 默认大小为0
-	int _size = 0;
+	int _size;
 	// 默认容量为16
-	int _capacity = 16;
+	int _capacity;
 	// 默认分配大小为16的内存空间
-	char* _data = new char[_capacity];
+	char* _data{nullptr};
 };
 
