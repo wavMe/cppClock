@@ -27,6 +27,7 @@ public:
 	vector<CustomString> Split(const char* splitData);
 private:
 	void DefualtInit();
+	void ExpandCapacity();
 	// 默认大小为0
 	int _size;
 	// 默认容量为16

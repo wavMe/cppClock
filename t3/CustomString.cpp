@@ -12,15 +12,11 @@ CustomString::CustomString()
 CustomString::CustomString(const char* data)
 {
 	DefualtInit();
+
 	_size = static_cast<int>(strlen(data));
 	if (_size >= _capacity)
-	{
-		while (_size >= _capacity)
-			_capacity *= 2;
+		ExpandCapacity();
 
-		delete[] _data;
-		_data = new char[_capacity];
-	}
 	memcpy(_data, data, sizeof(char) * (_size + 1));
 }
 CustomString::CustomString(const CustomString& other)
@@ -101,11 +97,7 @@ CustomString CustomString::Append(const char* appData)
 
 	if (_size >= _capacity)
 	{
-		while (_size >= _capacity)
-			_capacity *= 2;
-
-		delete[] _data;
-		_data = new char[_capacity];
+		ExpandCapacity();
 	}
 
 	// 原始data
@@ -155,5 +147,14 @@ void CustomString::DefualtInit()
 	// 默认容量为16
 	 _capacity = 16;
 	// 默认分配大小为16的内存空间
+	_data = new char[_capacity];
+} 
+
+void CustomString::ExpandCapacity()
+{
+	while (_size >= _capacity)
+		_capacity *= 2;
+
+	delete[] _data;
 	_data = new char[_capacity];
 }
