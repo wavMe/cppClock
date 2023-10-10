@@ -6,22 +6,22 @@
 
 CustomString::CustomString()
 {
-	DefualtInit();
+	_init();
 	_data[_size] = '\0';
 }
 CustomString::CustomString(const char* data)
 {
-	DefualtInit();
+	_init();
 
 	_size = static_cast<int>(strlen(data));
 	if (_size >= _capacity)
-		ExpandCapacity();
+		_expand();
 
 	memcpy(_data, data, sizeof(char) * (_size + 1));
 }
 CustomString::CustomString(const CustomString& other)
 {
-	DefualtInit();
+	_init();
 	_size = other._size;
 	_capacity = other._capacity;
 
@@ -32,9 +32,9 @@ CustomString::CustomString(const CustomString& other)
 }
 CustomString::~CustomString() { delete[] _data; }
 
-int CustomString::Size() const { return _size; }
-int CustomString::Length() const { return _size; }
-int CustomString::Capacity() const { return _capacity; }
+int CustomString::size() const { return _size; }
+int CustomString::length() const { return _size; }
+int CustomString::capacity() const { return _capacity; }
 
 //CustomString& CustomString::operator=(const CustomString& other)
 //{
@@ -69,7 +69,7 @@ bool CustomString::operator==(const CustomString& other) const
 	return (memcmp(_data, other._data, _size) == 0);
 }
 
-CustomString CustomString::Substr(int start, int count) const
+CustomString CustomString::substr(int start, int count) const
 {
 	if (start < 0 || start > _size || count < 0 || start + count > _size)
 	{
@@ -86,7 +86,7 @@ CustomString CustomString::Substr(int start, int count) const
 	return subStr;
 }
 
-CustomString CustomString::Append(const char* appData)
+CustomString CustomString::append(const char* appData)
 {
 	int oriSize = _size;
 	char* oriData = new char[_size + 1];
@@ -97,7 +97,7 @@ CustomString CustomString::Append(const char* appData)
 
 	if (_size >= _capacity)
 	{
-		ExpandCapacity();
+		_expand();
 	}
 
 	// 原始data
@@ -108,14 +108,14 @@ CustomString CustomString::Append(const char* appData)
 	return _data;
 }
 
-int CustomString::Find(const char* findData)
+int CustomString::find(const char* findData)
 {
 	CustomString findStr = CustomString(findData);
-	int findSize = findStr.Size();
+	int findSize = findStr.size();
 
 	for (int start = 0; start < _size - findSize + 1; start++)
 	{
-		if (Substr(start, findSize) == findStr)
+		if (substr(start, findSize) == findStr)
 		{
 			return start;
 		}
@@ -124,7 +124,7 @@ int CustomString::Find(const char* findData)
 	return -1;
 }
 
-vector<CustomString> CustomString::Split(const char* splitData)
+vector<CustomString> CustomString::split(const char* splitData)
 {
 	char* oriData = new char[_size + 1];
 	memcpy(oriData, _data, sizeof(char) * (_size + 1));
@@ -140,7 +140,7 @@ vector<CustomString> CustomString::Split(const char* splitData)
 	return strs;
 }
 
-void CustomString::DefualtInit()
+void CustomString::_init()
 {
 	// 默认大小为0
 	 _size = 0;
@@ -150,7 +150,7 @@ void CustomString::DefualtInit()
 	_data = new char[_capacity];
 } 
 
-void CustomString::ExpandCapacity()
+void CustomString::_expand()
 {
 	while (_size >= _capacity)
 		_capacity *= 2;

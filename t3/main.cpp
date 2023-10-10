@@ -17,13 +17,13 @@ int main()
 	CustomString str4 = str3;
 
 	// length
-	int len = str.Length();
+	int len = str.length();
 
 	// substr
-	CustomString subStr = str.Substr(0, 11);
+	CustomString subStr = str.substr(0, 11);
 
 	// append
-	CustomString appStr = str.Append(",append");
+	CustomString appStr = str.append(",append");
 
 	// operator=
 	CustomString str5;
@@ -33,10 +33,10 @@ int main()
 	bool equal = str == str2;
 
 	// find
-	int index = str.Find("append");
+	int index = str.find("append");
 
 	// split
-	vector<CustomString> strs = str.Split(",");
+	vector<CustomString> strs = str.split(",");
 
 	return 0;
 }
